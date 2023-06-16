@@ -3,11 +3,12 @@ import React from "react";
 import CourseListRow from "./CourseListRow";
 
 describe("<CourseListRow />", () => {
-  it("CourseListRow renders without crashing", () => {
+  it("renders CourseListRow without crashing", () => {
     const wrapper = shallow(<CourseListRow textFirstCell="test" />);
     expect(wrapper.exists()).toEqual(true);
   });
-  it("When isHeader is true renders one cell with colspan = 2 when textSecondCell does not exist", () => {
+
+  it("renders one cell with colspan = 2 when isHeader is true and textSecondCell does not exist", () => {
     const wrapper = shallow(
       <CourseListRow isHeader={true} textFirstCell="test" />
     );
@@ -17,7 +18,8 @@ describe("<CourseListRow />", () => {
     expect(item).toHaveLength(1);
     expect(item.prop("colSpan")).toEqual("2");
   });
-  it("When isHeader is true renders two cells when textSecondCell is present", () => {
+
+  it("renders two cells when isHeader is true and textSecondCell is present", () => {
     const wrapper = shallow(
       <CourseListRow
         isHeader={true}
@@ -32,7 +34,8 @@ describe("<CourseListRow />", () => {
     expect(item.first().text()).toEqual("test");
     expect(item.at(1).text()).toEqual("second");
   });
-  it("When isHeader is false renders correctly two td elements within a tr element", () => {
+
+  it("renders correctly two td elements within a tr element when isHeader is false", () => {
     const wrapper = shallow(
       <CourseListRow
         isHeader={false}
