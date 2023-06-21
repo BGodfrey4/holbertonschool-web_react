@@ -1,22 +1,22 @@
-.App-header {
-  display: flex;
-  border-bottom: #E0354B solid;
-  color: red;
+.Header {
+display: flex;
+border-bottom: solid #E0354B;
+color: red;
 }
 
-.App-header h1 {
-  margin-top: 80px;
+.Header-heading {
+margin-top: 80px;
 }
 
-.App-header img {
-  height: 200px;
-  width: 200px
+.Header-logo {
+height: 200px;
+width: 200px;
 }
 
-.App-footer {
-  position: fixed;
-  text-align: center;
-  bottom: 0em;
-  width: 100%;
-  border-top: red solid;
+.Footer {
+position: fixed;
+text-align: center;
+bottom: 0em;
+width: 100%;
+border-top: solid red;
 }
