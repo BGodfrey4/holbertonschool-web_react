@@ -1,30 +1,34 @@
-import { StyleSheetTestUtils } from 'aphrodite';
-import uiReducer from './uiReducer';
-import { DISPLAY_NOTIFICATION_DRAWER } from '../actions/uiActionTypes';
-import { initialState } from './uiReducer';
+import uiReducer, { initialState } from "./uiReducer";
+import { LOGIN, DISPLAY_NOTIFICATION_DRAWER } from "../actions/uiActionTypes";
 
-describe('uiReducere', () => {
-  beforeAll(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
+const USER = { email: "larry@hudson.com", password: "123456" };
+
+describe("uiReducer tests", function () {
+  it("verifies the state returned by the uiReducer function equals the initial state when no action is passed", function () {
+    const state = uiReducer(undefined, {});
+
+    expect(state.toJS()).toEqual(initialState);
+  });
+  it("verifies the state returned by the uiReducer function equals the initial state when the action SELECT_COURSE is passed", function () {
+    const state = uiReducer(undefined, { type: "SELECT_COURSE" });
+
+    expect(state.toJS()).toEqual(initialState);
+  });
+  it("verifies the state returned by the uiReducer function, when the action DISPLAY_NOTIFICATION_DRAWER is passed, changes correctly the isNotificationDrawerVisible property", function () {
+    const state = uiReducer(undefined, { type: DISPLAY_NOTIFICATION_DRAWER });
+
+    expect(state.toJS()).toEqual({
+      ...initialState,
+      isNotificationDrawerVisible: true,
+    });
   });
 
-  afterAll(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-  });
+  it("verifies the state returned by the uiReducer function, when the action LOGIN is passed, changes correctly the user property", function () {
+    const state = uiReducer(undefined, { type: LOGIN, user: USER });
 
-  it('returns the initial state when no action is passed', () => {
-    expect(uiReducer(undefined, {})).toEqual(initialState);
-  });
-
-  it('returns the initial state when the action SELECT_COURSE is passed', () => {
-    expect(uiReducer(undefined, { type: 'SELECT_COURSE' })).toEqual(initialState);
-  });
-
-  it('changes isNotificationDrawerVisible to true when DISPLAY_NOTIFICATION_DRAWER action is passed', () => {
-    const action = {
-      type: DISPLAY_NOTIFICATION_DRAWER,
-    };
-    const newState = uiReducer(initialState, action);
-    expect(newState.get('isNotificationDrawerVisible')).toBe(true);
+    expect(state.toJS()).toEqual({
+      ...initialState,
+      user: USER,
+    });
   });
 });
