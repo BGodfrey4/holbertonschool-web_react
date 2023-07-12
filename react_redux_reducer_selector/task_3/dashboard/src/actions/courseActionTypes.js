@@ -1,4 +1,3 @@
-
 // create two action types:
 // SELECT_COURSE
 // UNSELECT_COURSE
