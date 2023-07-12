@@ -1,5 +1,4 @@
 #!/usr/bin/node
-// const notifications = require('../notifications.json');
 import notifData from '../notifications.json';
 import { schema, normalize } from 'normalizr';
 
@@ -15,7 +14,7 @@ const message = new schema.Entity('messages', {}, {
 });
 
 // define notifications schema that ties the other schema into our json data
-const notification = new schema.Entity('notifications', {
+export const notification = new schema.Entity('notifications', {
   author: user,
   context: message,
 });
@@ -26,4 +25,9 @@ export function getAllNotificationsByUser(userId) {
   return Object.values(normalizedData.entities.notifications)
     .filter((note) => note.author == userId)
     .map((note) => normalizedData.entities.messages[note.context]);
+}
+
+export function notificationsNormalizer(data) {
+  const normalized = normalize(data, [notification]);
+  return normalized.entities;
 }
