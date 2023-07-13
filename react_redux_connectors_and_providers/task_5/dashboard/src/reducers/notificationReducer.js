@@ -1,30 +1,47 @@
-import * as actions from '../actions/notificationActionTypes';
-import { Map, setIn, set } from 'immutable';
-import { notificationsNormalizer } from '../schema/notifications';
+import { Map, fromJS } from "immutable";
 
-export const initialState= Map({
-  notifications: [],
-  filter: actions.NotificationTypeFilters.DEFAULT
-});
+import {
+  FETCH_NOTIFICATIONS_SUCCESS,
+  MARK_AS_READ,
+  SET_TYPE_FILTER,
+  SET_LOADING_STATE,
+} from "../actions/notificationActionTypes";
 
-export function notificationReducer(state=initialState, action={type: null}) {
-  switch(action.type) {
+export const initialNotificationState = {
+  notifications: {},
+  filter: "DEFAULT",
+  loading: false,
+};
 
-    case actions.FETCH_NOTIFICATIONS_SUCCESS:
-      const normData = notificationsNormalizer(action.data);
-      Object.keys(normData.notifications).map((key) => {
-        normData.notifications[key].isRead = false;
+import notificationsNormalizer from "../schema/notifications";
+
+const notificationReducer = (state = Map(initialNotificationState), action) => {
+  switch (action.type) {
+    case FETCH_NOTIFICATIONS_SUCCESS:
+      const normalizedData = notificationsNormalizer(action.data);
+
+      Object.keys(normalizedData.notifications).map((key) => {
+        normalizedData.notifications[key].isRead = false;
       });
-      return state.merge(normData);
 
-    case actions.MARK_AS_READ:
-      return setIn(state, ['notifications', String(action.index), 'isRead'], true);
+      return state.mergeDeep(normalizedData);
 
-    case actions.SET_TYPE_FILTER:
-      return set(state, 'filter', action.filter);
-    
+    case MARK_AS_READ:
+      return state.setIn(
+        ["notifications", String(action.index), "isRead"],
+        true
+      );
+
+    case SET_TYPE_FILTER:
+      return state.set("filter", action.filter);
+
+    case SET_LOADING_STATE:
+      return state.set("loading", action.loading);
+
     default:
-      return state;
-
+      break;
   }
-}
+  return state;
+};
+
+export default notificationReducer;
