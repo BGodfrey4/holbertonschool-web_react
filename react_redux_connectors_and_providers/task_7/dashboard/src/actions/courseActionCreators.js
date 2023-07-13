@@ -1,24 +1,52 @@
-import { SELECT_COURSE, UNSELECT_COURSE } from "./courseActionTypes";
-import { bindActionCreators } from "redux";
+import {
+  MARK_AS_READ,
+  SET_TYPE_FILTER,
+  SET_LOADING_STATE,
+  FETCH_NOTIFICATIONS_SUCCESS,
+} from "./notificationActionTypes";
 
-export const selectCourse = (index) => {
+import "node-fetch";
+
+export const markAsAread = (index) => {
   return {
-    type: SELECT_COURSE,
-    payload: index,
+    type: MARK_AS_READ,
+    index,
   };
-}
-
-
-export const unSelectCourse = (index) => {
-  return {
-    type: UNSELECT_COURSE,
-    payload: index,
-  };
-}
-
-export const courseActions = {
-  selectCourse,
-  unSelectCourse,
 };
 
-export const boundCourseActions = (dispatch) => bindActionCreators(courseActions, dispatch);
+export const boundMarkAsAread = (index) => dispatch(markAsAread(index));
+
+export const setNotificationFilter = (filter) => {
+  return {
+    type: SET_TYPE_FILTER,
+    filter,
+  };
+};
+
+export const boundSetNotificationFilter = (filter) =>
+  dispatch(setNotificationFilter(filter));
+
+export const setLoadingState = (loading) => {
+  return {
+    type: SET_LOADING_STATE,
+    loading,
+  };
+};
+
+export const setNotifications = (data) => {
+  return {
+    type: FETCH_NOTIFICATIONS_SUCCESS,
+    data,
+  };
+};
+
+export const fetchNotifications = () => {
+  return (dispatch) => {
+    dispatch(setLoadingState(true));
+    return fetch("./notifications.json")
+      .then((res) => res.json())
+      .then((data) => dispatch(setNotifications(data)))
+      .catch((error) => {})
+      .finally(() => dispatch(setLoadingState(false)));
+  };
+};
