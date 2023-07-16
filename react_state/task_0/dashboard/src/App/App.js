@@ -97,10 +97,10 @@ export default class App extends React.Component {
                 <CourseList listCourses={listCourses} />
               </BodySectionWithMarginBottom>
               ) : (
-              <BodySectionWithMarginBottom title="Log in to continue">
+              <BodySectionWithMarginBottom title="This logs in and keeps going">
                 <Login />
               </BodySectionWithMarginBottom>)}
-            <BodySection title="News from the School">
+            <BodySection title="This is the news from the school institution">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                 sed do eiusmod tempor incididunt ut labore et dolore magna 
                 aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
