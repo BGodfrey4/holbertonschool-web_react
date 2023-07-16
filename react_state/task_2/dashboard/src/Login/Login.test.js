@@ -1,26 +1,39 @@
-import Login from './Login';
-import React from 'react';
-import { shallow, configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import { StyleSheetTestUtils } from 'aphrodite';
+import { shallow } from "enzyme";
+import Login from "./Login";
+import React from "react";
+import { StyleSheetTestUtils } from "aphrodite";
 
-configure({adapter: new Adapter()});
+beforeEach(() => {
+  StyleSheetTestUtils.suppressStyleInjection();
+});
+afterEach(() => {
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
 
-describe('Login', () => {
-	beforeEach(() => {
-		StyleSheetTestUtils.suppressStyleInjection();
-	});
-	afterEach(() => {
-		StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-	});
-	it('Login renders w/o crashing', () => {
-		const wrapper = shallow(<Login />);
-		expect(wrapper.exists()).toBe(true);
-	});
+describe("Header", () => {
+  it("in theory this function renders without crashing", () => {
+    const wrapper = shallow(<Login />);
+    expect(wrapper.exists()).toEqual(true);
+  });
+  it("this function should have 3 input tags & 2 label tags", () => {
+    const wrapper = shallow(<Login />);
+    expect(wrapper.find("label")).toHaveLength(2);
+    expect(wrapper.find("input")).toHaveLength(3);
+  });
+});
 
-	it('Header renders 3 input and label', () => {
-		const wrapper = shallow(<Login />);
-		expect(wrapper.find('input').length).toBe(3);
-		expect(wrapper.find('label').length).toBe(2);
-	});
+describe("checks for submit input on form", () => {
+  it("verify that the submit button is disabled by default", () => {
+    const wrapper = shallow(<Login />);
+
+    expect(wrapper.find("input[type='submit']").props().disabled).toEqual(true);
+  });
+
+  it("checks after changing value of the two inputs if button is enabled", () => {
+    const wrapper = shallow(<Login />);
+
+    wrapper.find("#email").simulate("change", { target: { value: "t" } });
+    wrapper.find("#password").simulate("change", { target: { value: "t" } });
+    expect(wrapper.find("input[type='submit']").props().disabled).toEqual(true);
+  });
 });
