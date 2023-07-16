@@ -1,100 +1,37 @@
-import React from 'react';
-import { css, StyleSheet } from 'aphrodite';
+import React from "react";
+import { StyleSheet, css } from "aphrodite";
+
+function Login() {
+  return (
+    <React.Fragment>
+      <div className={css(styles["App-body"])}>
+        <p>Login to access the full dashboard</p>
+        <form>
+          <label htmlFor="email">Email:</label>
+          <input className={css(styles.input)} type="email" name="email"></input>
+          <label htmlFor="password">Password:</label>
+          <input className={css(styles.input)} type="password" name="password"></input>
+          <button>OK</button>
+        </form>
+      </div>
+    </React.Fragment>
+  );
+}
 
 const styles = StyleSheet.create({
-	login: {
-		marginLeft: '2.5rem',
-		marginTop: '5rem',
-		'@media (max-width: 900px)': {
-			marginLeft: '0'
-		}
-	},
+  "App-body": {
+    fontSize: "1rem",
+    padding: "2em",
+    height: "45%",
+    "@media (max-width: 900px)": {
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
 
-  email: {
-		marginLeft: '.2rem',
-		zIndex: '1000'
-	},
-
-	password: {
-		marginLeft: '.2rem',
-		zIndex: '1000'
-	},
-	
-	formBody: {
-		display: 'flex',
-		flexDirection: 'column'
-	},
-
-	okButton: {
-		width: '40px',
-		marginTop: '.2rem',
-		backgroundColor: 'white'
-	},
-
-	label: {
-		display: 'grid',
-		gridTemplateColumns: '75px 200px',
-		margin: '.2rem 0 .2rem 0'
-	}
+  input: {
+    margin: "10px",
+  },
 });
 
-export default function Login() {
-	const [state, setState] = React.useState({
-		isLoggedIn: false,
-		email: '',
-		password: '',
-		enableSubmit: false
-	});
-
-	const handleLoginSubmit = (event) => {
-		event.preventDefault();
-		setState({ isLoggedIn: true });
-	}
-
-	const handleChangeEmail = (event) => {
-		if (state.email !== '' && state.password !== '') state.enableSubmit = true;
-		else state.enableSubmit = false;
-		setState({ ...state, email: event.target.value });
-	}
-
-	const handleChangePassword = (event) => {
-		if (state.email !== '' && state.password !== '') state.enableSubmit = true;
-		else state.enableSubmit = false;
-		setState({ ...state, password: event.target.value });
-	}
-
-	return (
-		<React.Fragment>
-			<div className={`App-login ${css(styles.login)}`}>
-				<p>Login to access the full dashboard</p>
-				<form id="Form-body"
-					className={`Form-body ${css(styles.formBody)}`}
-					onSubmit={ handleLoginSubmit }>
-					<label htmlFor="email"
-						className={`label ${css(styles.label)}`}>
-						Email:
-						<input type="email"
-							id="email"
-							name="email"
-							className={`App-email ${css(styles.email)}`}
-							value={ state.email }
-							onChange={ handleChangeEmail } />
-					</label>
-					<label htmlFor="password"
-						className={`label ${css(styles.label)}`}>
-						Password:
-						<input type="password"
-							id="password"
-							name="password"
-							className={`App-password ${css(styles.password)}`}
-							value={ state.password }
-							onChange={ handleChangePassword } />
-					</label>
-					<input type="submit" value="OK"
-						className={`ok-button ${css(styles.okButton)}`}
-						disabled={ !state.enableSubmit } />
-				</form>
-			</div>
-		</React.Fragment>
-	);
-}
+export default Login;
