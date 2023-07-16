@@ -1,7 +1,8 @@
 import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
-
+import PropTypes from "prop-types";
 const styles = StyleSheet.create({
+	
 	login: {
 		marginLeft: '2.5rem',
 		marginTop: '5rem',
