@@ -1,30 +1,95 @@
-import Header from './Header';
-import React from 'react';
-import { shallow, configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import { StyleSheetTestUtils } from 'aphrodite';
+/**
+ * Test ENV
+ */
+import React from "react";
+import { AppContext } from "../App/AppContext";
+import Header from "./Header";
+import { StyleSheetTestUtils } from "aphrodite";
+import { mount, shallow } from "enzyme";
 
-configure({adapter: new Adapter()});
 
-describe('Header', () => {
-	beforeEach(() => {
-		StyleSheetTestUtils.suppressStyleInjection();
-	});
-	afterEach(() => {
-		StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-	});
-	it('Header renders w/o crashing', () => {
-		const wrapper = shallow(<Header />);
-		expect(wrapper.exists()).toBe(true);
-		jest.useFakeTimers();
-		jest.runAllTimers();
-	});
+beforeEach(() => {
+  StyleSheetTestUtils.suppressStyleInjection();
+});
+afterEach(() => {
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
 
-	it('Header renders img and h1', () => {
-		const wrapper = shallow(<Header />);
-		expect(wrapper.find('img').exists()).toBe(true);
-		expect(wrapper.find('h1').exists()).toBe(true);
-		jest.useFakeTimers();
-		jest.runAllTimers();
-	});
+describe("Header", () => {
+  it("render without crashing", () => {
+    const wrapper = shallow(<Header />);
+    expect(wrapper.exists()).toEqual(true);
+  });
+  it("should render a h1", () => {
+    const wrapper = shallow(<Header />);
+    expect(wrapper.exists("img")).toEqual(true);
+    expect(wrapper.containsMatchingElement(<h1>School dashboard</h1>)).toEqual(true);
+  });
+
+  it(`Tests that logoutSection is not rendered with default context values`, () => {
+    const context = {
+      user: {
+        email: "",
+        password: "",
+        isLoggedIn: false,
+      },
+      logOut: jest.fn(),
+    };
+
+    const wrapper = mount(
+      <AppContext.Provider value={context}>
+        <Header />
+      </AppContext.Provider>
+    );
+
+    expect(wrapper.find("#logoutSection").length).toBe(0);
+    expect(wrapper.find("#logoutSection").exists()).toBe(false);
+    wrapper.unmount();
+  });
+
+  it(`Tests that logoutSection is rendered with context values`, () => {
+    const context = {
+      user: {
+        email: "test@test.com",
+        password: "123",
+        isLoggedIn: true,
+      },
+      logOut: jest.fn(),
+    };
+
+    const wrapper = mount(
+      <AppContext.Provider value={context}>
+        <Header />
+      </AppContext.Provider>
+    );
+
+    expect(wrapper.find("#logoutSection").length).toBe(1);
+    expect(wrapper.find("#logoutSection").exists()).toBe(true);
+    wrapper.unmount();
+  });
+
+  it(`Verifies that the logOut function is called when clicking on logOut link`, () => {
+    const context = {
+      user: {
+        email: "test@test.com",
+        password: "123",
+        isLoggedIn: true,
+      },
+      logOut: jest.fn(),
+    };
+
+    const spy = jest.spyOn(context, "logOut");
+
+    const wrapper = mount(
+      <AppContext.Provider value={context}>
+        <Header />
+      </AppContext.Provider>
+    );
+
+    wrapper.find("a").simulate("click");
+
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
+    wrapper.unmount();
+  });
 });
