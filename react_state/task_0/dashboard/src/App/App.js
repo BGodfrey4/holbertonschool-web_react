@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Notifications from '../Notifications/Notifications';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+import { css, StyleSheet } from 'aphrodite';
 import Login from '../Login/Login';
 import CourseList from '../CourseList/CourseList';
 import BodySection from '../BodySection/BodySection';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import React from 'react';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import Notifications from '../Notifications/Notifications';
 import { getLatestNotification } from '../utils/utils';
-import { css, StyleSheet } from 'aphrodite';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   body: {
@@ -97,19 +97,15 @@ export default class App extends React.Component {
                 <CourseList listCourses={listCourses} />
               </BodySectionWithMarginBottom>
               ) : (
-              <BodySectionWithMarginBottom title="This logs in and keeps going">
+              <BodySectionWithMarginBottom title="This is the user login">
                 <Login />
               </BodySectionWithMarginBottom>)}
-            <BodySection title="This is the news from the school institution">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore magna 
-                aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                Duis aute irure dolor in reprehenderit in voluptate velit esse 
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-                cupidatat non proident, sunt in culpa qui officia deserunt 
-                mollit anim id est laborum.</p>
-            </BodySection>
+            <BodySection title="news from the school institution">
+              <p>Volutpat maecenas volutpat blanditaliquam etiam erat velit scelerisque.
+                Sed arcu non odio euismod lacinia. In nulla posuere sollicitudin aliquam ultrices.
+                Ipsum consequat nisl vel pretium. Sem integer vitae justo eget magna fermentum
+		iaculis eu.Donec ac odio tempor orci dapibus ultrices in iaculis.
+                adipiscing vitae proin. Orci porta non pulvinar neque laoreet. 
           </div>
           <div className={`App-footer ${css(styles.footer)}`}>
             <Footer />
