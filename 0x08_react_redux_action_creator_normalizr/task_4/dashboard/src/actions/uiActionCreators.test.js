@@ -1,38 +1,31 @@
-// import * as types from './uiActionCreators';
-import * as types from './uiActionCreators';
+import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER } from "./uiActionTypes";
 
-describe('uiActionCreators', () => {
-  it('confirm types.login returns correct object', () => {
-    const email = 'fake@mail.com';
-    const password = 'fakepassword';
-    const expectedAction = {
-      type: 'LOGIN',
-      user: {
-        email,
-        password,
-      },
-    };
-    expect(types.Login(email, password)).toEqual(expectedAction);
+import { login, logout, hideNotificationDrawer, displayNotificationDrawer } from "./uiActionCreators";
+
+describe("tests UI notification action creators", () => {
+  it("should create proper action for login", () => {
+    const email = "james@gmail.com";
+    const password = "heheheh";
+
+    expect(login(email, password)).toEqual({
+      type: LOGIN,
+      user: { email: "james@gmail.com", password: "heheheh" },
+    });
   });
 
-  it('confirm types.logout returns correct object', () => {
-    const expectedAction = {
-      type: 'LOGOUT',
-    };
-    expect(types.Logout()).toEqual(expectedAction);
-  });
-  
-  it('confirm types.displayNotificationDrawer returns correct object', () => {
-    const expectedAction = {
-      type: 'DISPLAY_NOTIFICATION_DRAWER',
-    };
-    expect(types.displayNotificationDrawer()).toEqual(expectedAction);
+  it("creates proper action for logout", () => {
+    expect(logout()).toEqual({ type: LOGOUT });
   });
 
-  it('confirm types.hideNotificationDrawer returns correct object', () => {
-    const expectedAction = {
-      type: 'HIDE_NOTIFICATION_DRAWER',
-    };
-    expect(types.hideNotificationDrawer()).toEqual(expectedAction);
+  it("creates proper action for displaying notification drawer", () => {
+    expect(displayNotificationDrawer()).toEqual({
+      type: DISPLAY_NOTIFICATION_DRAWER,
+    });
+  });
+
+  it("creates proper action + hides notification drawer", () => {
+    expect(hideNotificationDrawer()).toEqual({
+      type: HIDE_NOTIFICATION_DRAWER,
+    });
   });
 });
