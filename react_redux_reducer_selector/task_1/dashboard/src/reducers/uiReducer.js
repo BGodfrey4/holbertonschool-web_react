@@ -1,37 +1,29 @@
 import { Map } from 'immutable';
-import {
-  LOGIN,
-  LOGOUT,
-  DISPLAY_NOTIFICATION_DRAWER,
-  HIDE_NOTIFICATION_DRAWER,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-} from '../actions/uiActionTypes';
+import * as actions from '../actions/uiActionTypes';
 
 export const initialState = Map({
   isNotificationDrawerVisible: false,
   isUserLoggedIn: false,
-  user: Map({}),
+  user: {}
 });
 
-export default function uiReducer(state = initialState, action) {
-  switch (action.type) {
-    case DISPLAY_NOTIFICATION_DRAWER:
+export function uiReducer(state=initialState, action={type: null}) {
+  switch(action.type) {
+    case actions.DISPLAY_NOTIFICATION_DRAWER:
       return state.set('isNotificationDrawerVisible', true);
-    case HIDE_NOTIFICATION_DRAWER:
+
+    case actions.HIDE_NOTIFICATION_DRAWER:
       return state.set('isNotificationDrawerVisible', false);
-    case LOGIN_SUCCESS:
-      return state.merge({
-        isUserLoggedIn: true,
-        user: Map(action.user),
-      });
-    case LOGIN_FAILURE:
-      return state.merge({
-        isUserLoggedIn: false,
-        error: action.error,
-      });
-    case LOGOUT:
+
+    case actions.LOGIN_SUCCESS:
+      return state.set('isUserLoggedIn', true);
+
+    case actions.LOGIN_FAILURE:
       return state.set('isUserLoggedIn', false);
+    
+    case actions.LOGOUT:
+      return state.set('isUserLoggedIn', false);
+    
     default:
       return state;
   }
