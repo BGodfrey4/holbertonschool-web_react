@@ -1,30 +1,19 @@
-import { StyleSheetTestUtils } from 'aphrodite';
-import uiReducer from './uiReducer';
-import { DISPLAY_NOTIFICATION_DRAWER } from '../actions/uiActionTypes';
-import { initialState } from './uiReducer';
+import { uiReducer, initialState } from './uiReducer';
+import * as actions from '../actions/uiActionTypes';
 
-describe('uiReducere', () => {
-  beforeAll(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
+describe('Testing uiReducer', () => {
+  it('verify the state returned by the uiReducer function equals the initial state when no action is passed', () => {
+    const res = uiReducer();
+    expect(res.toJS()).toStrictEqual(initialState.toJS());
   });
 
-  afterAll(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  it('verify  the state returned by the uiReducer function equals the initial state when the action SELECT_COURSE is passed', () => {
+    const res = uiReducer(undefined, {type: "SELECT_COURSE"});
+    expect(res.toJS()).toStrictEqual(initialState.toJS());
   });
 
-  it('returns the initial state when no action is passed', () => {
-    expect(uiReducer(undefined, {})).toEqual(initialState);
-  });
-
-  it('returns the initial state when the action SELECT_COURSE is passed', () => {
-    expect(uiReducer(undefined, { type: 'SELECT_COURSE' })).toEqual(initialState);
-  });
-
-  it('changes isNotificationDrawerVisible to true when DISPLAY_NOTIFICATION_DRAWER action is passed', () => {
-    const action = {
-      type: DISPLAY_NOTIFICATION_DRAWER,
-    };
-    const newState = uiReducer(initialState, action);
-    expect(newState.get('isNotificationDrawerVisible')).toBe(true);
+  it('verify the state returned by the uiReducer function, when the action DISPLAY_NOTIFICATION_DRAWER is passed, changes correctly the isNotificationDrawerVisible property', () => {
+    const res = uiReducer(undefined, {type: actions.DISPLAY_NOTIFICATION_DRAWER});
+    expect(res.toJS()).toStrictEqual({ ...initialState.toJS(), isNotificationDrawerVisible: true });
   });
 });
