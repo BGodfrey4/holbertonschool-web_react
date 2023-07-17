@@ -1,39 +1,28 @@
 import * as types from './uiActionTypes';
 import { bindActionCreators } from 'redux';
+import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER } from "./uiActionTypes";
 
-export function Login(email, password) {
+export function login(email, password) {
   return {
-    type: types.LOGIN,
-    user: {
-      email,
-      password,
-    },
+    type: LOGIN,
+    user: { email, password },
   };
 }
 
-export function Logout() {
-  return {
-    type: types.LOGOUT,
-  };
-}
+export const boundLogin = (email, password) => dispatch(login(email, password));
 
-export function displayNotificationDrawer() {
-  return {
-    type: types.DISPLAY_NOTIFICATION_DRAWER,
-  };
-}
+export const logout = () => ({ type: LOGOUT });
 
-export function hideNotificationDrawer() {
-  return {
-    type: types.HIDE_NOTIFICATION_DRAWER,
-  };
-}
+export const boundLogout = () => dispatch(logout());
 
-export const uiActions = {
-  login: Login,
-  logout: Logout,
-  displayNotificationDrawer: displayNotificationDrawer,
-  hideNotificationDrawer: hideNotificationDrawer
-}
+export const displayNotificationDrawer = () => ({
+  type: DISPLAY_NOTIFICATION_DRAWER,
+});
 
-export const boundUiActions = dispatch => bindActionCreators(uiActions, dispatch);
+export const boundDisplayNotificationDrawer = () => dispatch(displayNotificationDrawer());
+
+export const hideNotificationDrawer = () => ({
+  type: HIDE_NOTIFICATION_DRAWER,
+});
+
+export const boundHideNotificationDrawer = () => dispatch(hideNotificationDrawer());
