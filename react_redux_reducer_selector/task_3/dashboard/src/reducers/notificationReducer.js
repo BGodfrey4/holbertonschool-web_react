@@ -1,41 +1,31 @@
-import { MARK_AS_READ,
-  SET_TYPE_FILTER, 
-  NotificationTypeFilters,
-  FETCH_NOTIFICATIONS_SUCCESS } from '../actions/notificationActionTypes';
+import * as actions from '../actions/notificationActionTypes';
 
-
-export const initialState = {
+export const initialState= {
   notifications: [],
-  filter: NotificationTypeFilters.DEFAULT,
+  filter: actions.NotificationTypeFilters
 };
 
-export default function notificationReducer(state = initialState, action) {
-  switch (action.type) {
-    case FETCH_NOTIFICATIONS_SUCCESS:
+export function notificationReducer(state=initialState, action={type: null}) {
+  switch(action.type) {
+    case actions.FETCH_NOTIFICATIONS_SUCCESS:
       return {
-        filter: state.filter,
-        notifications: action.data.map((notification) => {
-          return { ...notification, isRead: false };
-        }),
+        filter: actions.NotificationTypeFilters.DEFAULT,
+        notifications: action.data.map((item) => ({...item, isRead: false}))
       };
-    case MARK_AS_READ:
+
+    case actions.MARK_AS_READ:
       return {
-        filter: state.filter,
-        notifications: state.notifications.map((notification) => {
-          if (notification.id === action.index) {
-            return { ...notification, isRead: true };
-          }
-          return notification;
-        }),
+        ...state,
+        notifications: state.notifications.map((item) => item.id == action.index ? {...item, isRead: true} : {...item})
       };
-    case SET_TYPE_FILTER:
+
+    case actions.SET_TYPE_FILTER:
       return {
-        filter: action.filter,
-        notifications: state.notifications.map((notification) => {
-          return { ...notification, isRead: false };
-        }),
+        ...state,
+        filter: action.filter
       };
+    
     default:
       return state;
   }
-};
+}
