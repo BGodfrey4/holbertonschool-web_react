@@ -1,14 +1,15 @@
-import { notificationReducer, initialState } from "./notificationReducer";
-import { Map } from 'immutable';
 import * as actions from '../actions/notificationActionTypes';
+import { Map } from 'immutable';
+import { notificationReducer, initialState } from "./notificationReducer";
 
-describe('Testing notificationReducer', () => {
+
+describe('Tests the notificationReducer', () => {
   it('Test that the default state returns the correct object', () => {
     const res = notificationReducer();
     expect(res.toJS()).toStrictEqual(initialState.toJS());
   });
 
-  it('Test that FETCH_NOTIFICATIONS_SUCCESS returns the data passed', () => {
+  it('Tests FETCH_NOTIFICATIONS_SUCCESS returns passed info', () => {
     const action = {
       type: actions.FETCH_NOTIFICATIONS_SUCCESS,
       data: [
@@ -56,7 +57,7 @@ describe('Testing notificationReducer', () => {
     expect(res.toJS()).toStrictEqual(expected);
   });
 
-  it('Test that MARK_AS_READ returns the correct data', () => {
+  it('MARK_AS_READ test & returns the correct data', () => {
     const action = {
       type: actions.MARK_AS_READ,
       index: 1
