@@ -1,17 +1,8 @@
-import * as types from './notificationActionTypes';
+export const MARK_AS_READ = "MARK_AS_READ";
 
-function markAsRead(index) {
-  return {
-    type: types.MARK_AS_READ,
-    index,
-  };
-}
+export const SET_TYPE_FILTER = "SET_TYPE_FILTER";
 
-function setNotificationFilter(filter) {
-  return {
-    type: types.SET_TYPE_FILTER,
-    filter,
-  };
-}
-
-export { markAsRead, setNotificationFilter };
+export const NotificationTypeFilters = {
+  DEFAULT: "DEFAULT",
+  URGENT: "URGENT",
+};
