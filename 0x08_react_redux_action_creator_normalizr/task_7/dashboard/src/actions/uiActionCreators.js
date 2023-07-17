@@ -1,69 +1,50 @@
-import * as types from './uiActionTypes';
-import { bindActionCreators } from 'redux';
+import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER } from "./uiActionTypes";
+import fetch from "node-fetch";
 
-export function Login(email, password) {
+export function login(email, password) {
   return {
-    type: types.LOGIN,
-    user: {
-      email,
-      password,
-    },
+    type: LOGIN,
+    user: { email, password },
   };
 }
 
-export function Logout() {
+export const boundLogin = (email, password) => dispatch(login(email, password));
+
+export const logout = () => ({ type: LOGOUT });
+
+export const boundLogout = () => dispatch(logout());
+
+export const displayNotificationDrawer = () => ({
+  type: DISPLAY_NOTIFICATION_DRAWER,
+});
+
+export const boundDisplayNotificationDrawer = () => dispatch(displayNotificationDrawer());
+
+export const hideNotificationDrawer = () => ({
+  type: HIDE_NOTIFICATION_DRAWER,
+});
+
+export const boundHideNotificationDrawer = () => dispatch(hideNotificationDrawer());
+
+export function loginSuccess() {
   return {
-    type: types.LOGOUT,
+    type: LOGIN_SUCCESS,
   };
 }
 
-export function displayNotificationDrawer() {
+export function loginFailure() {
   return {
-    type: types.DISPLAY_NOTIFICATION_DRAWER,
+    type: LOGIN_FAILURE,
   };
 }
 
-export function hideNotificationDrawer() {
-  return {
-    type: types.HIDE_NOTIFICATION_DRAWER,
-  };
-}
-
-export function LoginSuccess() {
-  return {
-    type: types.LOGIN_SUCCESS,
-  };
-}
-
-export function LoginFailure() {
-  return {
-    type: types.LOGIN_FAILURE,
-  };
-}
-
-// // Async action creator that returns function that dispatches actions
 export function loginRequest(email, password) {
-  return async function(dispatch) {
-    dispatch(Login(email, password));
-    const response = await fetch('./login-success.json');
-    const json = await response.json();
-    if (json.status === 'ok') {
-      dispatch(LoginSuccess());
-    }
-    else {
-      dispatch(LoginFailure());
-    }
+  return (dispatch) => {
+    boundLogin(email, password);
+
+    return fetch("http://localhost:8564/login-success.json")
+      .then((res) => res.json())
+      .then((json) => dispatch(loginSuccess()))
+      .catch((error) => dispatch(loginFailure()));
   };
 }
-
-export const uiActions = {
-  login: Login,
-  logout: Logout,
-  displayNotificationDrawer: displayNotificationDrawer,
-  hideNotificationDrawer: hideNotificationDrawer,
-  loginRequest: loginRequest,
-  LoginFailure: LoginFailure,
-  LoginSuccess: LoginSuccess,
-}
-
-export const boundUiActions = dispatch => bindActionCreators(uiActions, dispatch);
